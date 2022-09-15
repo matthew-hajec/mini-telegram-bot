@@ -43,3 +43,23 @@ Whenever a message update is recieved from Telegram, the ```handler``` passed to
 func (b *TelegramBot) SendMessage(message *TelegramOutgoingMessage) (bool, error)
 ```
 To send a message, call ```TelegramBot.SendMessage``` with a message struct instance containing the chat ID and text content of the message. If the request is successful, the first boolean return value will be true, it will be false in all other cases. If an error occurred that was not recieved from the Telegram server, it will be contained in the error return value. If an error is returned from telegram's server, the boolean will be false and the error will be nil.
+
+### Custom Headers
+To create custom headers, you must create your own HTTP client that implements the tgbot.HTTPClient interface. The "Do" method exposes the "http.Request" object and expects you to "Do" the request, this can be done easily using the http.DefaultClient. This is easier to understand with an example:
+```go
+// initialize variables and handler...
+
+type customClient struct{}
+
+func (c *customClient) Do(req *http.Request) (*http.Response, error) {
+	req.Header.Set("user-agent", "my user agent")
+
+	return http.DefaultClient.Do(req)
+}
+
+func main() {
+	bot = *tgbot.CreateBot("apiKeyHere", updateHandler, &customClient{})
+	bot.Start()
+}
+
+```

@@ -26,7 +26,7 @@ func handleUpdate(update *TelegramUpdateResult) {
 		}
 
 		bot.SendMessage(&TelegramOutgoingMessage{
-			ChatID: int(update.Results[i].Message.Chat.Id),
+			ChatID: update.Results[i].Message.Chat.Id,
 			Text:   text,
 		})
 	}

@@ -32,8 +32,14 @@ func main() {
 
 ```
 
-### MessageHandler ```type TelegramMessageHandler func(update *TelegramUpdateResult)```
+### MessageHandler 
+```go
+type TelegramMessageHandler func(update *TelegramUpdateResult)
+```
 Whenever a message update is recieved from Telegram, the ```handler``` passed to ```tgbot.CreateBot``` is called with an array containing all of the messages. When processing these updates, you should loop over each one.
 
-### SendMessage ```func (b *TelegramBot) SendMessage(message *TelegramOutgoingMessage) (bool, error)```
+### SendMessage 
+```go
+func (b *TelegramBot) SendMessage(message *TelegramOutgoingMessage) (bool, error)
+```
 To send a message, call ```TelegramBot.SendMessage``` with a message struct instance containing the chat ID and text content of the message. If the request is successful, the first boolean return value will be true, it will be false in all other cases. If an error occurred that was not recieved from the Telegram server, it will be contained in the error return value. If an error is returned from telegram's server, the boolean will be false and the error will be nil.
